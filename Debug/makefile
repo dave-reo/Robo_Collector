@@ -60,8 +60,8 @@ all: main-build
 main-build: Robo_Collector.elf secondary-outputs
 
 # Tool invocations
-Robo_Collector.elf Robo_Collector.map: $(OBJS) $(USER_OBJS) D:\Mechatronics_Labs\ME-507\TP\Github_Repo\Robo_Collector\STM32F411CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Robo_Collector.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Mechatronics_Labs\ME-507\TP\Github_Repo\Robo_Collector\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Robo_Collector.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Robo_Collector.elf Robo_Collector.map: $(OBJS) $(USER_OBJS) C:\Users\dreo\OneDrive\ -\ Cal\ Poly\Robo_Collector\STM32F411CEUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Robo_Collector.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\dreo\OneDrive - Cal Poly\Robo_Collector\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Robo_Collector.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
