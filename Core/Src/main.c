@@ -77,9 +77,15 @@ uint8_t Is_First_Captured = 0;
 uint8_t Is_Dead = 0;
 uint32_t trig = 0;
 uint8_t Distance = 0;
+uint8_t L1 = 0;
+uint8_t L2 = 0;
 
 #define TRIG_PIN GPIO_PIN_9 // make sure this is A9
 #define TRIG_PORT GPIOA
+#define LS_PORT GPIOB
+#define LS_1 GPIO_PIN_9
+#define LS_2 GPIO_PIN_8
+
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 // figure out how to put the dead man's switch in this same callback
@@ -194,6 +200,8 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  HCSR04_Read();
 	  HAL_Delay(200); //200 ms delay
+	  L1 = HAL_GPIO_ReadPin(LS_PORT, LS_1);
+	  L2 = HAL_GPIO_ReadPin(LS_PORT, LS_2);
 
   }
   /* USER CODE END 3 */
@@ -504,6 +512,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PB9 */
+  GPIO_InitStruct.Pin = GPIO_PIN_9;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
