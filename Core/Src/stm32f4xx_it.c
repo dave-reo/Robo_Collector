@@ -230,6 +230,7 @@ void TIM2_IRQHandler(void)
 }
 
 /**
+<<<<<<< Updated upstream
   * @brief This function handles USART1 global interrupt.
   */
 void USART1_IRQHandler(void)
@@ -244,6 +245,8 @@ void USART1_IRQHandler(void)
 }
 
 /**
+=======
+>>>>>>> Stashed changes
   * @brief This function handles TIM5 global interrupt.
   */
 void TIM5_IRQHandler(void)

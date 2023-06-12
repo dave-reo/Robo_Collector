@@ -57,7 +57,10 @@ void PendSV_Handler(void);
 void SysTick_Handler(void);
 void TIM1_CC_IRQHandler(void);
 void TIM2_IRQHandler(void);
+<<<<<<< Updated upstream
 void USART1_IRQHandler(void);
+=======
+>>>>>>> Stashed changes
 void TIM5_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 
