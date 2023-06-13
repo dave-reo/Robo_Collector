@@ -3,6 +3,7 @@
 	<name>Core</name>
 	<comment></comment>
 	<projects>
+		<project>Robo_Collector</project>
 	</projects>
 	<buildSpec>
 	</buildSpec>
