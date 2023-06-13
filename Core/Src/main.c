@@ -157,6 +157,10 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 			// some other code to kill the robot
 			// maybe turn off motor drivers
 		}
+		if (trig < 1000)
+		{
+			// something to start the code here
+		}
 	}
 
 	if (htim == &htim1) // timer 1 is for the ultrasonic sensor
