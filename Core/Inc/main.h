@@ -56,25 +56,6 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-typedef struct motor_driver {
-
-       //have a max count for motor
-
-       TIM_HandleTypeDef* htim;//timer handle
-
-       uint32_t           chan1;//timer channel a
-       uint32_t           chan2;//timer chanel b
-
-} motor_driver_t;
-
-
-void drive(motor_driver_t*, int32_t);
-
-void enable(motor_driver_t*); //enable pins
-
-void disable(motor_driver_t*);
-
-#endif /*__motor_driver_H*/
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -89,4 +70,4 @@ void disable(motor_driver_t*);
 }
 #endif
 
-#endif /* __MAIN_H */
+#endif /*__MAIN_H */

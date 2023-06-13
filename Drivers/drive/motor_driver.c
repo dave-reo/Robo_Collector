@@ -1,11 +1,3 @@
-/*
- * motor_driver.c
- *
- *  Created on: Jun 12, 2023
- *      Author: matts
- */
-
-
 #include "motor_driver.h"
 
 void drive(motor_driver_t* motor, int32_t duty) {

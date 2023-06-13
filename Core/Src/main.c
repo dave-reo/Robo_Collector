@@ -19,7 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include <stdio.h> //
-#include "moto_driver.h" //
+#include "motor_driver.h" //
 #include "string.h"
 #include <ctype.h>
 
@@ -102,50 +102,55 @@ uint8_t duty;
 #define LS_2 GPIO_PIN_8
 
 
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	HAL_UART_Receive_IT(&huart1, (uint8_t*) &input_char, 1);
+		HAL_UART_Transmit(&huart1, (uint8_t*) &input_char, 1, 50);
+
+		if (huart == &huart1){
+
+			if (ind == 0 && input_char == 'M') {
+
+						char_buff[ind] = input_char;
+						ind++;
+					}
+
+				if (ind == 1 && (input_char == '1' || input_char == '2') && char_buff[0] == 'M'){
+
+						char_buff[ind] = input_char;
+
+						input_char = '\0';
+
+						ind++;
+
+					}
+
+					if ((ind == 2 || ind == 3) && isxdigit(input_char)
+							&& (char_buff[1] == '1' || char_buff[1] == '2')
+							&& input_char != '\0') {
+
+						char_buff[ind] = input_char;
+
+						input_char = '\0';
+						ind++;
+
+					}
+
+					if (ind == 4) {
+
+						HAL_UART_Transmit(&huart1, "\r\nduty set!\r\n", 16, 50);
+
+						ind = 0;
+					}
+
+				}
+}
+
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 // figure out how to put the dead man's switch in this same callback
 {
 
-	HAL_UART_Receive_IT(&huart1, (uint8_t*) &input_char, 1);
-	HAL_UART_Transmit(&huart1, (uint8_t*) &input_char, 1, 50);
 
-	if (huart == &huart1){
-
-		if (ind == 0 && input_char == 'M') {
-
-					char_buff[ind] = input_char;
-					ind++;
-				}
-
-			if (ind == 1 && (input_char == '1' || input_char == '2') && char_buff[0] == 'M'){
-
-					char_buff[ind] = input_char;
-
-					input_char = '\0';
-
-					ind++;
-
-				}
-
-				if ((ind == 2 || ind == 3) && isxdigit(input_char)
-						&& (char_buff[1] == '1' || char_buff[1] == '2')
-						&& input_char != '\0') {
-
-					char_buff[ind] = input_char;
-
-					input_char = '\0';
-					ind++;
-
-				}
-
-				if (ind == 4) {
-
-					HAL_UART_Transmit(&huart1, "\r\nduty set!\r\n", 16, 50);
-
-					ind = 0;
-				}
-
-			}
 
 	if (htim == &htim5) //timer 5 is for dead man's switch
 	{
@@ -267,10 +272,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  HCSR04_Read();
-	  HAL_Delay(200); //200 ms delay
-	  L1 = HAL_GPIO_ReadPin(LS_PORT, LS_1);
-	  L2 = HAL_GPIO_ReadPin(LS_PORT, LS_2);
+//	  HCSR04_Read();
+//	  HAL_Delay(200); //200 ms delay
+//	  L1 = HAL_GPIO_ReadPin(LS_PORT, LS_1);
+//	  L2 = HAL_GPIO_ReadPin(LS_PORT, LS_2);
 
 	  if (char_buff[2] != '\0' && char_buff[3] != '\0'
 	  					&& char_buff[1] == '1') {
