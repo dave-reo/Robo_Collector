@@ -1,0 +1,3 @@
+../Core/Src/motor_driver.c:3:6:drive	16	static
+../Core/Src/motor_driver.c:29:6:enable	16	static
+../Core/Src/motor_driver.c:35:6:disable	16	static

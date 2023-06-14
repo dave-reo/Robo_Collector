@@ -21,6 +21,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "motor_driver.h"
+#include "string.h"
+#include "stdio.h"
+#include "ctype.h"
 
 
 /* USER CODE END Includes */
@@ -75,6 +79,7 @@ uint32_t IC_Val2 = 0;
 uint32_t Difference = 0;
 uint8_t Is_First_Captured = 0;
 uint8_t Is_Dead = 0;
+uint8_t Start = 0;
 uint32_t trig = 0;
 uint8_t Distance = 0;
 uint8_t L1 = 0;
@@ -100,6 +105,11 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 			Is_Dead = 1;
 			// some other code to kill the robot
 			// maybe turn off motor drivers
+		}
+		if (trig < 1000 && trig!=0)
+		{
+			Start = 1;
+			// start robot state
 		}
 	}
 
@@ -130,6 +140,10 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 				}
 
 				Distance = Difference * .034/2; //FORMULA IN DATASHEET
+				if (Distance<5 && Distance != 0 )
+				{
+					Is_Dead = 1; //KILL
+				}
 				Is_First_Captured = 0; // set it back to false
 
 				//set polarity to rising edge
@@ -189,6 +203,10 @@ int main(void)
   HAL_TIM_IC_Start_IT(&htim5, TIM_CHANNEL_1); //start tim 5!!!!!
   HAL_TIM_IC_Start(&htim5, TIM_CHANNEL_2);
 
+  motor_driver_t motor1 = {&htim2, TIM_CHANNEL_1, TIM_CHANNEL_2}; //pass values into struct
+  motor_driver_t motor2 = {&htim2, TIM_CHANNEL_3, TIM_CHANNEL_4};
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -202,6 +220,25 @@ int main(void)
 	  HAL_Delay(200); //200 ms delay
 	  L1 = HAL_GPIO_ReadPin(LS_PORT, LS_1);
 	  L2 = HAL_GPIO_ReadPin(LS_PORT, LS_2);
+
+	  if (Start == 1)
+	  {
+		  enable(&motor1);
+		  enable(&motor2);
+		  Is_Dead = 0;
+		  Start = 0;
+	  }
+	  if (Is_Dead == 1)
+	  {
+		  disable(&motor1);
+		  disable(&motor2);
+		  Start = 0;
+		  Is_Dead = 0;
+	  }
+
+	  // some code to test duty cycle:
+	  drive(&motor1, 15);
+	  drive(&motor2, 15);
 
   }
   /* USER CODE END 3 */
