@@ -235,10 +235,34 @@ int main(void)
 		  Start = 0;
 		  Is_Dead = 0;
 	  }
+	  // L1 is closest to the Right wheel facing out (motor1)
+	  // L2 is closest to the Left wheel facing out (motor2)
+
+	  if(L1 == 0 && L2 ==0)
+	  {
+		  drive(&motor1, -100);
+		  drive(&motor2, -100);
+	  }
+	  if(L1 == 0 && L2 ==1)
+	  {
+
+		  drive(&motor1, -50);
+		  drive(&motor2, 100);
+
+	  }
+	  if(L1 == 1 && L2 ==0)
+	  {
+		  drive(&motor1, 100);
+		  drive(&motor2, -50);
+	  }
+	  if(L1 == 1 && L2 ==1)
+	  {
+		  drive(&motor1, -100);
+		  drive(&motor2, -100);
+	  }
 
 	  // some code to test duty cycle:
-	  drive(&motor1, 15);
-	  drive(&motor2, 15);
+
 
   }
   /* USER CODE END 3 */
