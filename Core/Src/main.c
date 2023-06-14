@@ -18,10 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include <stdio.h> //
-#include "motor_driver.h" //
-#include "string.h"
-#include <ctype.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -82,75 +78,24 @@ uint32_t IC_Val2 = 0;
 uint32_t Difference = 0;
 uint8_t Is_First_Captured = 0;
 uint8_t Is_Dead = 0;
+uint8_t Start = 0;
 uint32_t trig = 0;
 uint8_t Distance = 0;
 uint8_t L1 = 0;
 uint8_t L2 = 0;
 
-uint8_t MSG[35] = {'\0'};
-
-uint8_t X = 0;
-char input_char;
-char char_buff[5]; //=0
-uint8_t ind = 0; //index variable
 uint8_t duty;
 
-#define TRIG_PIN GPIO_PIN_9 // make sure this is A9
+#define TRIG_PIN GPIO_PIN_9
 #define TRIG_PORT GPIOA
 #define LS_PORT GPIOB
 #define LS_1 GPIO_PIN_9
 #define LS_2 GPIO_PIN_8
 
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	HAL_UART_Receive_IT(&huart1, (uint8_t*) &input_char, 1);
-		HAL_UART_Transmit(&huart1, (uint8_t*) &input_char, 1, 50);
-
-		if (huart == &huart1){
-
-			if (ind == 0 && input_char == 'M') {
-
-						char_buff[ind] = input_char;
-						ind++;
-					}
-
-				if (ind == 1 && (input_char == '1' || input_char == '2') && char_buff[0] == 'M'){
-
-						char_buff[ind] = input_char;
-
-						input_char = '\0';
-
-						ind++;
-
-					}
-
-					if ((ind == 2 || ind == 3) && isxdigit(input_char)
-							&& (char_buff[1] == '1' || char_buff[1] == '2')
-							&& input_char != '\0') {
-
-						char_buff[ind] = input_char;
-
-						input_char = '\0';
-						ind++;
-
-					}
-
-					if (ind == 4) {
-
-						HAL_UART_Transmit(&huart1, "\r\nduty set!\r\n", 16, 50);
-
-						ind = 0;
-					}
-
-				}
-}
-
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 // figure out how to put the dead man's switch in this same callback
 {
-
-
 
 	if (htim == &htim5) //timer 5 is for dead man's switch
 	{
@@ -159,12 +104,19 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 		if (trig > 1700)
 		{
 			Is_Dead = 1;
+			disable(&motor1);
+			disable(&motor2);
 			// some other code to kill the robot
 			// maybe turn off motor drivers
 		}
 		if (trig < 1000)
+
+			Start = 1;
+			enable(&motor1);
+			enable(&motor2);
 		{
 			// something to start the code here
+		    // motor enable?
 		}
 	}
 
@@ -195,6 +147,11 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 				}
 
 				Distance = Difference * .034/2; //FORMULA IN DATASHEET
+				if (Distance <= 5) // distance is less than 5 cm, so stop
+				{
+					disable(&motor1);
+					disable(&motor2);
+				}
 				Is_First_Captured = 0; // set it back to false
 
 				//set polarity to rising edge
@@ -258,10 +215,9 @@ int main(void)
 	motor_driver_t motor1 = { &htim2, TIM_CHANNEL_1, TIM_CHANNEL_2 }; //pass values into struct
 	motor_driver_t motor2 = { &htim2, TIM_CHANNEL_3, TIM_CHANNEL_4 };
 
-	enable(&motor1);
-	enable(&motor2);
+//	enable(&motor1);
+//	enable(&motor2);
 
-	HAL_UART_Receive_IT(&huart1, (uint8_t*) &input_char, 1); //when something is typed in uart, recieve
 
   /* USER CODE END 2 */
 
@@ -272,44 +228,26 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//	  HCSR04_Read();
-//	  HAL_Delay(200); //200 ms delay
-//	  L1 = HAL_GPIO_ReadPin(LS_PORT, LS_1);
-//	  L2 = HAL_GPIO_ReadPin(LS_PORT, LS_2);
+	  HCSR04_Read();
+	  HAL_Delay(200); //200 ms delay
+	  L1 = HAL_GPIO_ReadPin(LS_PORT, LS_1);
+	  L2 = HAL_GPIO_ReadPin(LS_PORT, LS_2);
 
-	  if (char_buff[2] != '\0' && char_buff[3] != '\0'
-	  					&& char_buff[1] == '1') {
+	  if (L1 == 1 && L2 == 0){
+		  // code to turn one direction
+	  }
+	  if (L1 == 0 && L2 == 1){
+		  // code to turn the other direction
+	  }
+	  if (L1 == 1 && L2 == 1)
+	  {
+		  // code to go straight
+	  }
+	  if (L1 == 0 && L2 == 0){
+		  // maybe do a delay in case both sensors go off at same time
+	  }
 
-	  				char char_hex[2] = { char_buff[2], char_buff[3] };
-	  				int int_hex;
 
-	  				sscanf(char_hex, "%x", &int_hex);
-
-	  				int8_t duty = (int8_t) int_hex;
-
-	  				drive(&motor1, duty);
-
-	  				char_buff[2] = '\0';
-	  				char_buff[3] = '\0';
-
-	  			}
-
-	  			if (char_buff[2] != '\0' && char_buff[3] != '\0'
-	  					&& char_buff[1] == '2') {
-
-	  				char char_hex[2] = { char_buff[2], char_buff[3] };
-	  				int int_hex;
-
-	  				sscanf(char_hex, "%x", &int_hex);
-
-	  				int8_t duty = (int8_t) int_hex;
-
-	  				drive(&motor2, duty);
-
-	  				char_buff[2] = '\0';
-	  				char_buff[3] = '\0';
-
-	  			}
   }
   /* USER CODE END 3 */
 }
@@ -652,6 +590,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PB8 PB9 */
+  GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */

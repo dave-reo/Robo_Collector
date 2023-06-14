@@ -28,7 +28,6 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
-#include "stdint.h" //include standard int library
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -70,4 +69,4 @@ void Error_Handler(void);
 }
 #endif
 
-#endif /*__MAIN_H */
+#endif /* __MAIN_H */

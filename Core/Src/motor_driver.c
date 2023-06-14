@@ -31,7 +31,9 @@ void enable(motor_driver_t* motor){
 
 void disable(motor_driver_t* motor){
 
-       _HAL_TIM_SET_COMPARE(motor->htim, motor->chan1, 0); //only works with positive duty
-       _HAL_TIM_SET_COMPARE(motor->htim, motor->chan2, 0); //only works with positive duty
+//       _HAL_TIM_SET_COMPARE(motor->htim, motor->chan1, 0);
+//       _HAL_TIM_SET_COMPARE(motor->htim, motor->chan2, 0);
+       HAL_TIM_PWM_Stop(motor -> htim, motor->chan1);
+       HAL_TIM_PWM_Stop(motor -> htim, motor->chan2);
 }
 
