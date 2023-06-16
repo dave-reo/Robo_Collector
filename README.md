@@ -3,6 +3,7 @@
 ## Introduction
 The Robo_Collector was inspired by the classic "Hungry Hippos" game where players complete to collect as many marbles as possible. However, our goal was to take this concept to the next level by creating a sophisticated robot capable of finding, picking up, and sorting ping pong balls. We aimed to develop the mechanical, electrical, and software systems for this robot by using concepts learned in the mechatronics concentration at Cal Poly.
 
+
 ## Mechanical Design
 We began by creating a preliminary CAD model of the robot frame, but had to make necessary adjustments due to considerations such as PCB sizing and sensor placement, which influenced the design of individual components. To bring our vision to life, we utilized available 3D printers and crafted the entire frame using PLA material. The integration of different pieces was achieved through a combination of fasteners and adhesive bonds. Throughout the development process, we underwent multiple iterations for each component, including the base, ball retriever, ramp, and motor container.
 
