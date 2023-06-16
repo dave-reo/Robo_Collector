@@ -2,8 +2,7 @@
 
 ## Introduction
 The Robo_Collector was inspired by the classic "Hungry Hippos" game where players complete to collect as many marbles as possible. However, our goal was to take this concept to the next level by creating a sophisticated robot capable of finding, picking up, and sorting ping pong balls. We aimed to develop the mechanical, electrical, and software systems for this robot by using concepts learned in the mechatronics concentration at Cal Poly.
-
-
+![alt text](https://github.com/dave-reo/Robo_Collector/blob/Robo-Worker/Hungy_Hippo.jpg)
 ## Mechanical Design
 We began by creating a preliminary CAD model of the robot frame, but had to make necessary adjustments due to considerations such as PCB sizing and sensor placement, which influenced the design of individual components. To bring our vision to life, we utilized available 3D printers and crafted the entire frame using PLA material. The integration of different pieces was achieved through a combination of fasteners and adhesive bonds. Throughout the development process, we underwent multiple iterations for each component, including the base, ball retriever, ramp, and motor container.
 
@@ -12,7 +11,7 @@ One of the main challenges we encountered was ensuring that the ball retriever c
 Despite these efforts, we discovered that the ball retriever would dislocate from the collar supports on the ramp after approximately 5 seconds of spinning. To mitigate this issue in future iterations, we plan to extend the collars by 10 millimeters to account for any lateral translation that may occur. This adjustment will provide the necessary stability and ensure that the ball retriever remains securely attached to the ramp throughout its operation.
 A picture containing wheel, tire, auto part, open-wheel car
 
-![alt text](https://github.com/dave-reo/Robo_Collector/blob/Robo-Worker/Hungy_Hippo.jpg)
+
 
 ## Electronic Design
 Our circuit board design catered to a 12V battery, featuring a 12V to 5V buck regulator to support various sensors and a 5V to 3.3V linear regulator for the STM32F411 microcontroller, which we chose for its versatility. To ensure flexibility, we also incorporated the option to use the STM32F411-based Blackpill Development Board if our PCB encountered any issues. Notable elements on the board included an indicator light for power status, a 3A fuse for battery protection, a MOSFET for reverse polarity, a 20MHz crystal, and three motor drivers. We soldered the components onto the board using a stencil and solder paste, with the hindsight that a frame would have saved time during the solder paste application. Additionally, labeling the ordered circuit components according to the PCB labels would have provided further time savings. 
