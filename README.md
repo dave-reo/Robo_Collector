@@ -16,6 +16,7 @@ Despite these efforts, we discovered that the ball retriever would dislocate fro
 ## Electronic Design
 Our circuit board design catered to a 12V battery, featuring a 12V to 5V buck regulator to support various sensors and a 5V to 3.3V linear regulator for the STM32F411 microcontroller, which we chose for its versatility. To ensure flexibility, we also incorporated the option to use the STM32F411-based Blackpill Development Board if our PCB encountered any issues. Notable elements on the board included an indicator light for power status, a 3A fuse for battery protection, a MOSFET for reverse polarity, a 20MHz crystal, and three motor drivers. We soldered the components onto the board using a stencil and solder paste, with the hindsight that a frame would have saved time during the solder paste application. Additionally, labeling the ordered circuit components according to the PCB labels would have provided further time savings. 
 
+![alt text](https://github.com/dave-reo/Robo_Collector/blob/Robo-Worker/Robo_Blackpill.jpg)
 Testing the board was an iterative process, involving techniques such as continuity testing and isopropyl alcohol application to locate shorts. Although we successfully addressed some shorts, the buck regulator and linear regulator remained problematic. After extensive testing and component replacements, we suspected a possible defect in the board itself, leading us to switch to the Blackpill for a functional robot within our tight timeline. Given more time, we would have further investigated component specifications and placement to identify the root cause of the short.
 
 ![alt text](https://github.com/dave-reo/Robo_Collector/blob/Robo-Worker/Robo_Electrical.jpg)
@@ -24,3 +25,5 @@ To meet the tight deadline and avoid unnecessarily complex code, our software im
 
 ## Results
 We successfully developed various individual functionalities for the robot, including line sensors, ultrasonic sensors, and motor drivers. However, when it came to integrating all these components together, we faced challenges and were unable to complete the ball sorting mechanism and its corresponding code within the given time constraints. Given more time, we would have revised both the mechanical and electrical design to create a more functional prototype on the next iteration.
+
+![alt text](https://github.com/dave-reo/Robo_Collector/blob/Robo-Worker/Robo_Result.jpg)
