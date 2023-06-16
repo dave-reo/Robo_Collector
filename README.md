@@ -9,6 +9,7 @@ We began by creating a preliminary CAD model of the robot frame, but had to make
 One of the main challenges we encountered was ensuring that the ball retriever could handle the torque without allowing the ping pong balls to escape from the frame. To address this, we decided to reprint the ramp and base board, incorporating guard rails to keep the balls within the desired boundaries. While we were successful in capturing some ping pong balls, we faced difficulties in achieving instant torque for the motor due to the high friction associated with PLA. To overcome this, we initially employed a higher duty cycle to get the ball retriever spinning, and then gradually adjusted it to a suitable level considering the lightweight components.
 
 Despite these efforts, we discovered that the ball retriever would dislocate from the collar supports on the ramp after approximately 5 seconds of spinning. To mitigate this issue in future iterations, we plan to extend the collars by 10 millimeters to account for any lateral translation that may occur. This adjustment will provide the necessary stability and ensure that the ball retriever remains securely attached to the ramp throughout its operation.
+
 ![alt text](https://github.com/dave-reo/Robo_Collector/blob/Robo-Worker/Robo_Mechanical.jpg)
 
 
